@@ -7,4 +7,9 @@ export interface PostUseCase {
   retrievePost(token: string): Promise<PostInfo.Main>;
 
   registerPost(command: PostCommand.RegisterPost): Promise<PostInfo.PostToken>;
+
+  modifyPost(
+    token: string,
+    command: PostCommand.ModifyPost,
+  ): Promise<PostInfo.Main>;
 }

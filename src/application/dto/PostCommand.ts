@@ -5,4 +5,10 @@ export namespace PostCommand {
     content: string;
     author: Nullish<string>;
   }
+
+  export class ModifyPost {
+    content: Nullish<string>;
+
+    author: Nullish<string>;
+  }
 }

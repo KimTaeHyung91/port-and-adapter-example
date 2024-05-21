@@ -46,4 +46,24 @@ export class PostService implements PostUseCase {
 
     return dto;
   }
+
+  @Transactional()
+  async modifyPost(
+    token: string,
+    command: PostCommand.ModifyPost,
+  ): Promise<PostInfo.Main> {
+    const post = await this.loadPostPort.getPostBy(token);
+
+    post.modify(command.content, command.author);
+
+    await this.savePostPort.update(post);
+
+    const main = new PostInfo.Main();
+
+    main.token = post.postToken;
+    main.content = post.content;
+    main.author = post.author;
+
+    return main;
+  }
 }

@@ -81,6 +81,16 @@ export class Post {
     );
   }
 
+  modify(content: Nullish<string>, author: Nullish<string>) {
+    if (content) {
+      this.content = content;
+    }
+
+    if (author) {
+      this.author = author;
+    }
+  }
+
   removePost() {
     this.deletedAt = new Date();
   }

@@ -38,4 +38,9 @@ export class PostPersistenceAdapter implements LoadPostPort, SavePostPort {
 
     return this.mapper.mapFromEntityToDomain(entity);
   }
+
+  async update(post: Post): Promise<void> {
+    this.mapper.mapFromDomainToEntity(post);
+    await this.em.flush();
+  }
 }

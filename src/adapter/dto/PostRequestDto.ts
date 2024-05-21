@@ -1,5 +1,5 @@
 import { Nullish } from '../../common/types/Nullish';
-import { Optional, Required } from '@tsed/schema';
+import { Nullable, Optional, Required } from '@tsed/schema';
 
 export namespace PostRequestDto {
   export class RequestRegisterPost {
@@ -8,5 +8,13 @@ export namespace PostRequestDto {
 
     @Optional()
     author?: Nullish<string>;
+  }
+
+  export class RequestModifyPost {
+    @Nullable(String)
+    content?: string | null;
+
+    @Nullable(String)
+    author?: string | null;
   }
 }

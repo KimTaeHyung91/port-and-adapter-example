@@ -1,5 +1,5 @@
 import { Controller, Inject } from '@tsed/di';
-import { Get, Post } from '@tsed/schema';
+import { Get, Post, Put } from '@tsed/schema';
 import { PostUseCase } from '../../../application/in/PostUseCase';
 import { BodyParams, PathParams } from '@tsed/platform-params';
 import { PostRequestDto } from '../../dto/PostRequestDto';
@@ -26,14 +26,26 @@ export class PostRestApiController {
 
     const token = await this.useCase.registerPost(command);
 
-    console.log('token', token);
-
     return new BaseResponse({ data: token });
   }
 
   @Get('/:token')
   async retrievePost(@PathParams('token') token: string) {
     const main = await this.useCase.retrievePost(token);
+
+    return new BaseResponse({ data: main });
+  }
+
+  @Put('/:token')
+  async modifyPost(
+    @PathParams('token') token: string,
+    @BodyParams() request: PostRequestDto.RequestModifyPost,
+  ) {
+    const command = new PostCommand.ModifyPost();
+    command.content = request.content;
+    command.author = request.author;
+
+    const main = await this.useCase.modifyPost(token, command);
 
     return new BaseResponse({ data: main });
   }

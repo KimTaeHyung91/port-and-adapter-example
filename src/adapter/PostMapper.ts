@@ -38,7 +38,6 @@ export class PostMapper {
       postEntity.deletedAt = domain.deletedAt;
     }
 
-    console.log(domain);
     postEntity.content = domain.content;
     postEntity.createdAt = domain.createdAt;
     postEntity.postToken = domain.postToken;
