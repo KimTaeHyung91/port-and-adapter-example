@@ -12,4 +12,6 @@ export interface PostUseCase {
     token: string,
     command: PostCommand.ModifyPost,
   ): Promise<PostInfo.Main>;
+
+  removePost(token: string): Promise<void>;
 }

@@ -1,4 +1,5 @@
 import { Entity, Property } from '@mikro-orm/core';
+import { Nullish } from '../types/Nullish';
 
 @Entity({ abstract: true })
 export abstract class AbstractEntity {
@@ -11,5 +12,5 @@ export abstract class AbstractEntity {
   updatedAt: Date;
 
   @Property({ nullable: true })
-  deletedAt: Date;
+  deletedAt?: Nullish<Date>;
 }

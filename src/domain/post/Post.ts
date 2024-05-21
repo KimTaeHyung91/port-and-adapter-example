@@ -91,7 +91,7 @@ export class Post {
     }
   }
 
-  removePost() {
+  remove() {
     this.deletedAt = new Date();
   }
 }

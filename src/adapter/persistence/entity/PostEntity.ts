@@ -13,5 +13,5 @@ export class PostEntity extends AbstractEntity {
   content: string;
 
   @Property({ nullable: true })
-  author: string;
+  author: string | null;
 }

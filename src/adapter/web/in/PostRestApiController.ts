@@ -1,5 +1,5 @@
 import { Controller, Inject } from '@tsed/di';
-import { Get, Post, Put } from '@tsed/schema';
+import { Delete, Get, Post, Put } from '@tsed/schema';
 import { PostUseCase } from '../../../application/in/PostUseCase';
 import { BodyParams, PathParams } from '@tsed/platform-params';
 import { PostRequestDto } from '../../dto/PostRequestDto';
@@ -48,5 +48,12 @@ export class PostRestApiController {
     const main = await this.useCase.modifyPost(token, command);
 
     return new BaseResponse({ data: main });
+  }
+
+  @Delete('/:token')
+  async removePost(@PathParams('token') token: string) {
+    await this.useCase.removePost(token);
+
+    return new BaseResponse({ data: null });
   }
 }

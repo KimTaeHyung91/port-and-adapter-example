@@ -66,4 +66,12 @@ export class PostService implements PostUseCase {
 
     return main;
   }
+
+  async removePost(token: string): Promise<void> {
+    const post = await this.loadPostPort.getPostBy(token);
+
+    post.remove();
+
+    await this.savePostPort.update(post);
+  }
 }

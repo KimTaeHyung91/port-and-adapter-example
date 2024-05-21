@@ -40,7 +40,18 @@ export class PostPersistenceAdapter implements LoadPostPort, SavePostPort {
   }
 
   async update(post: Post): Promise<void> {
-    this.mapper.mapFromDomainToEntity(post);
+    const entity = await this.em.findOne(PostEntity, {
+      postToken: post.postToken,
+    });
+
+    if (!entity) {
+      throw new NotFoundError('not found');
+    }
+
+    entity.content = post.content;
+    entity.author = post.author ?? null;
+    entity.deletedAt = post.deletedAt;
+
     await this.em.flush();
   }
 }

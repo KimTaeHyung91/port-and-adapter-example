@@ -19,6 +19,7 @@ export class PostMapper {
       deletedAt: entity.deletedAt,
     });
   }
+
   mapFromDomainToEntity(domain: Post) {
     const postEntity = new PostEntity();
 
@@ -43,6 +44,12 @@ export class PostMapper {
     postEntity.postToken = domain.postToken;
 
     return postEntity;
+  }
+
+  mapFromDomainToExistEntity(domain: Post, entity: PostEntity) {
+    entity.content = domain.content;
+    entity.author = domain.author ?? null;
+    entity.deletedAt = domain.deletedAt || null;
   }
 
   mapFromDtoToDto(
