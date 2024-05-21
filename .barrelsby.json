@@ -1,0 +1,9 @@
+{
+  "directory": ["./src/adapter/web/in"],
+  "exclude": [
+    "__mock__",
+    "__mocks__",
+    ".spec.ts"
+  ],
+  "delete": true
+}
