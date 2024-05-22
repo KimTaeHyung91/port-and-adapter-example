@@ -4,7 +4,7 @@ import { Post } from '../domain/post/Post';
 import { PostId } from '../domain/post/PostId';
 import { PostRequestDto } from './dto/PostRequestDto';
 import { PostCommand } from '../application/dto/PostCommand';
-import { Constructor } from '../common/decorator/Constructor';
+import { Constructor } from '../common/types/Constructor';
 
 @Injectable()
 export class PostMapper {

@@ -1,7 +1,7 @@
 import { Entity, Property } from '@mikro-orm/core';
 import { Nullish } from '../../common/types/Nullish';
 import { TConstructProps } from '../../common/types/Props';
-import { Constructor } from '../../common/decorator/Constructor';
+import { Constructor } from '../../common/types/Constructor';
 
 @Entity({ abstract: true })
 export abstract class AbstractEntity {
