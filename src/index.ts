@@ -1,14 +1,12 @@
 import { $log } from '@tsed/common';
 import { PlatformExpress } from '@tsed/platform-express';
 import { Server } from './Server';
-import { MikroOrmProviderModule } from './common/MikroOrmProviderModule';
 
 async function bootstrap() {
   try {
     const platform = await PlatformExpress.bootstrap(Server, {
       ...(await Server.autoScanProvider()),
       ...Server.mikroOrmConfiguration(),
-      imports: [MikroOrmProviderModule],
     });
     await platform.listen();
 

@@ -48,8 +48,6 @@ export class PostPersistenceAdapter implements LoadPostPort, SavePostPort {
       throw new NotFoundError('not found');
     }
 
-    entity.content = post.content;
-    entity.author = post.author ?? null;
-    entity.deletedAt = post.deletedAt;
+    entity.update(post);
   }
 }
