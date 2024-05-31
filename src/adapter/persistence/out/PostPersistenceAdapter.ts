@@ -6,9 +6,13 @@ import { NotFoundError } from '@mikro-orm/core';
 import { PostMapper } from '../../PostMapper';
 import { PostEntity } from '../entity/PostEntity';
 import { MikroOrmAccess } from '../MikroOrmAccess';
+import { UpdatePostPort } from '../../../application/out/UpdatePost.port';
+import { TDomainCallBack } from '../../../application/out/Types';
 
-@Adapter({ type: [LoadPostPort, SavePostPort] })
-export class PostPersistenceAdapter implements LoadPostPort, SavePostPort {
+@Adapter({ type: [LoadPostPort, SavePostPort, UpdatePostPort] })
+export class PostPersistenceAdapter
+  implements LoadPostPort, SavePostPort, UpdatePostPort
+{
   constructor(
     private readonly mapper: PostMapper,
     private readonly mikroOrmAccess: MikroOrmAccess,
@@ -39,15 +43,24 @@ export class PostPersistenceAdapter implements LoadPostPort, SavePostPort {
     return this.mapper.mapFromEntityToDomain(entity);
   }
 
-  async update(post: Post): Promise<void> {
-    const entity = await this.mikroOrmAccess.em.findOne(PostEntity, {
-      postToken: post.postToken,
-    });
+  async update(
+    token: string,
+    domainCallBack: TDomainCallBack<Post>,
+  ): Promise<Post> {
+    const postEntity = await this.mikroOrmAccess.em.findOneOrFail(
+      PostEntity,
+      {
+        postToken: token,
+      },
+      {
+        failHandler: (entityName) => new NotFoundError(entityName),
+      },
+    );
 
-    if (!entity) {
-      throw new NotFoundError('not found');
-    }
+    const post = postEntity.toDomain();
+    domainCallBack(post);
+    postEntity.update(post);
 
-    entity.update(post);
+    return post;
   }
 }

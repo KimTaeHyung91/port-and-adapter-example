@@ -2,6 +2,7 @@ import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import { AbstractEntity } from '../AbstractEntity';
 import { TConstructProps } from '../../../common/types/Props';
 import { Post } from '../../../domain/post/Post';
+import { PostId } from '../../../domain/post/PostId';
 
 @Entity({ tableName: 'post' })
 export class PostEntity extends AbstractEntity {
@@ -16,6 +17,18 @@ export class PostEntity extends AbstractEntity {
 
   @Property({ nullable: true })
   author: string | null;
+
+  toDomain() {
+    return Post.of({
+      id: new PostId(this.id),
+      postToken: this.postToken,
+      content: this.content,
+      author: this.author,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+      deletedAt: this.deletedAt,
+    });
+  }
 
   update(post: TConstructProps<Post>): void {
     if (post.content) this.content = post.content;

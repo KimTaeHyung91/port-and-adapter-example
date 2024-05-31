@@ -7,6 +7,7 @@ import { SavePostPort } from './out/SavePost.port';
 import { PostCommand } from './dto/PostCommand';
 import { Transactional } from '@tsed/mikro-orm';
 import { Post } from '../domain/post/Post';
+import { UpdatePostPort } from './out/UpdatePost.port';
 
 @Service({ type: PostUseCase })
 export class PostService implements PostUseCase {
@@ -15,6 +16,8 @@ export class PostService implements PostUseCase {
     private readonly loadPostPort: LoadPostPort,
     @Inject(SavePostPort)
     private readonly savePostPort: SavePostPort,
+    @Inject(UpdatePostPort)
+    private readonly updatePostPort: UpdatePostPort,
   ) {}
 
   async retrievePost(token: string): Promise<PostInfo.Main> {
@@ -52,11 +55,9 @@ export class PostService implements PostUseCase {
     token: string,
     command: PostCommand.ModifyPost,
   ): Promise<PostInfo.Main> {
-    const post = await this.loadPostPort.getPostBy(token);
-
-    post.modify(command.content, command.author);
-
-    await this.savePostPort.update(post);
+    const post = await this.updatePostPort.update(token, (post) =>
+      post.modify(command.content, command.author),
+    );
 
     const main = new PostInfo.Main();
 
@@ -68,10 +69,6 @@ export class PostService implements PostUseCase {
   }
 
   async removePost(token: string): Promise<void> {
-    const post = await this.loadPostPort.getPostBy(token);
-
-    post.remove();
-
-    await this.savePostPort.update(post);
+    await this.updatePostPort.update(token, (post) => post.remove());
   }
 }

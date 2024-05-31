@@ -10,7 +10,7 @@ import { PostgreSqlDriver } from '@mikro-orm/postgresql';
   ...config,
   rootDir: __dirname,
   httpsPort: false,
-  httpPort: 6000,
+  httpPort: 6001,
   middlewares: [
     'cors',
     'cookie-parser',
