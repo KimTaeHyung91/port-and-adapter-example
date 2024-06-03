@@ -26,6 +26,8 @@ interface IPost {
   updatedAt: Nullish<Date>;
 
   deletedAt: Nullish<Date>;
+
+  meta: object;
 }
 
 export class Post {
@@ -43,6 +45,8 @@ export class Post {
 
   deletedAt: Nullish<Date>;
 
+  meta: Nullish<object>;
+
   private constructor(
     id: Nullish<PostId>,
     postToken: string,
@@ -50,6 +54,7 @@ export class Post {
     author: Nullish<string>,
     createdAt: Date,
     updatedAt: Nullish<Date>,
+    meta: Nullish<object>,
   ) {
     this.id = id;
     this.postToken = postToken;
@@ -57,6 +62,7 @@ export class Post {
     this.author = author;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+    this.meta = meta;
   }
 
   static init({ content, author = null }: Pick<IPost, 'content' | 'author'>) {
@@ -67,6 +73,7 @@ export class Post {
       author,
       new Date(),
       new Date(),
+      null,
     );
   }
 
@@ -78,10 +85,15 @@ export class Post {
       props.author,
       props.createdAt,
       props.updatedAt,
+      props.meta,
     );
   }
 
-  modify(content: Nullish<string>, author: Nullish<string>) {
+  modify(
+    content: Nullish<string>,
+    author: Nullish<string>,
+    meta: Nullish<object>,
+  ) {
     if (content) {
       this.content = content;
     }
@@ -89,6 +101,8 @@ export class Post {
     if (author) {
       this.author = author;
     }
+
+    this.meta = { ...this.meta, ...meta };
   }
 
   remove() {

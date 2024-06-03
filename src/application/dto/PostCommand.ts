@@ -10,5 +10,7 @@ export namespace PostCommand {
     content: Nullish<string>;
 
     author: Nullish<string>;
+
+    meta: Nullish<object>;
   }
 }

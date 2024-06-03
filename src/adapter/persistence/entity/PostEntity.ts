@@ -18,6 +18,9 @@ export class PostEntity extends AbstractEntity {
   @Property({ nullable: true })
   author: string | null;
 
+  @Property({ type: 'jsonb' })
+  meta: object;
+
   toDomain() {
     return Post.of({
       id: new PostId(this.id),
@@ -27,12 +30,15 @@ export class PostEntity extends AbstractEntity {
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       deletedAt: this.deletedAt,
+      meta: this.meta,
     });
   }
 
   update(post: TConstructProps<Post>): void {
     if (post.content) this.content = post.content;
     if (post.deletedAt) this.deletedAt = post.deletedAt;
+
+    if (post.meta) this.meta = post.meta;
 
     this.author = post.author ?? null;
   }

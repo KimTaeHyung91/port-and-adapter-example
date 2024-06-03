@@ -56,7 +56,7 @@ export class PostService implements PostUseCase {
     command: PostCommand.ModifyPost,
   ): Promise<PostInfo.Main> {
     const post = await this.updatePostPort.update(token, (post) =>
-      post.modify(command.content, command.author),
+      post.modify(command.content, command.author, command.meta),
     );
 
     const main = new PostInfo.Main();

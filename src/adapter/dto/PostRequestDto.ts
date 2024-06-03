@@ -16,5 +16,8 @@ export namespace PostRequestDto {
 
     @Nullable(String)
     author?: string | null;
+
+    @Nullable(Object)
+    meta?: object;
   }
 }

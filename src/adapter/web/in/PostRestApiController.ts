@@ -44,6 +44,7 @@ export class PostRestApiController {
     const command = new PostCommand.ModifyPost();
     command.content = request.content;
     command.author = request.author;
+    command.meta = request.meta;
 
     const main = await this.useCase.modifyPost(token, command);
 
